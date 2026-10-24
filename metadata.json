@@ -1,0 +1,7 @@
+{
+  "name": "Saba Art ",
+  "description": "Discover bespoke handmade paintings, timeless Islamic calligraphy, canvas art, and custom artwork thoughtfully created to bring art, beauty and inspiration into your space.",
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
