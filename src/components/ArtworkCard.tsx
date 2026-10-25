@@ -1,6 +1,7 @@
 import React from 'react';
 import { Eye, Heart, ShoppingBag, MessageCircle, Maximize2, Sparkles } from 'lucide-react';
 import { Artwork } from '../types';
+import { SABA_WHATSAPP } from '../utils/orderDispatch';
 
 interface ArtworkCardProps {
   artwork: Artwork;
@@ -19,8 +20,8 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
   onViewInRoom,
   onAddToCart
 }) => {
-  const whatsappUrl = `https://wa.me/923000000000?text=${encodeURIComponent(
-    `Hello Saba Art, I would like to inquire about/order: "${artwork.title}" (${artwork.urduTitle}) - Price: PKR ${artwork.pricePKR.toLocaleString()}. Is this piece available?`
+  const whatsappUrl = `https://wa.me/${SABA_WHATSAPP}?text=${encodeURIComponent(
+    `Hello Saba Art, I would like to inquire about/order: "${artwork.title}" (${artwork.dimensions}) - Price: PKR ${artwork.pricePKR.toLocaleString()}. Is this piece available?`
   )}`;
 
   return (
@@ -60,17 +61,19 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
           <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
         </button>
 
-        {/* The Cropped Painting Artwork */}
+        {/* The Cropped Painting Artwork (WebP ultra fast loading) */}
         <div
           onClick={() => onQuickView(artwork)}
           className="relative w-full h-full flex items-center justify-center p-2 group-hover:scale-105 transition-transform duration-500"
         >
-          {/* Subtle canvas drop-shadow simulation */}
           <img
-            src={artwork.image}
+            src={artwork.thumbnail || artwork.image}
             alt={artwork.title}
             className="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_20px_rgba(0,0,0,0.7)]"
             loading="lazy"
+            decoding="async"
+            width="800"
+            height="600"
           />
         </div>
 
@@ -105,16 +108,13 @@ export const ArtworkCard: React.FC<ArtworkCardProps> = ({
             <span>{artwork.dimensions}</span>
           </div>
 
-          {/* Titles */}
+          {/* Title */}
           <h3
             onClick={() => onQuickView(artwork)}
-            className="font-serif text-white font-bold text-base hover:text-[#faee78] transition-colors cursor-pointer line-clamp-1 mb-0.5"
+            className="font-serif text-white font-bold text-base hover:text-[#faee78] transition-colors cursor-pointer line-clamp-1 mb-2"
           >
             {artwork.title}
           </h3>
-          <p className="font-arabic text-[#d4af37] text-sm font-semibold mb-2 text-right dir-rtl">
-            {artwork.urduTitle}
-          </p>
 
           <p className="text-zinc-400 text-xs line-clamp-2 leading-relaxed mb-4">
             {artwork.description}

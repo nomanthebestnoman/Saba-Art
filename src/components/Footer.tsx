@@ -1,5 +1,6 @@
 import React from 'react';
-import { MessageCircle, Heart, ShieldCheck, Truck, Sparkles, Instagram, Facebook, Phone, Mail } from 'lucide-react';
+import { MessageCircle, Heart, ShieldCheck, Truck, Sparkles, Mail } from 'lucide-react';
+import { SABA_EMAIL, SABA_WHATSAPP } from '../utils/orderDispatch';
 
 export const Footer: React.FC = () => {
   return (
@@ -21,8 +22,8 @@ export const Footer: React.FC = () => {
                 <span className="font-serif text-lg font-bold tracking-widest text-white block">
                   SABA ART
                 </span>
-                <span className="font-arabic text-xs text-[#d4af37] font-semibold -mt-1 block">
-                  صبا آرٹ — ہاتھ سے تیار کردہ شاہکار
+                <span className="text-[10px] text-[#d4af37] tracking-wider uppercase font-semibold">
+                  Original Handmade Masterpieces
                 </span>
               </div>
             </div>
@@ -31,15 +32,23 @@ export const Footer: React.FC = () => {
               Discover bespoke original paintings, timeless Quranic calligraphy, and inspiring landscapes hand-painted on premium cotton canvas. Crafted with love to bring peace and elegance into your living space.
             </p>
 
-            <div className="pt-2 flex items-center gap-3">
+            <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <a
-                href="https://wa.me/923000000000"
+                href={`mailto:${SABA_EMAIL}`}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#161822] text-[#faee78] border border-zinc-800 hover:border-[#d4af37]/40 transition-all font-semibold"
+              >
+                <Mail className="w-4 h-4 text-[#d4af37]" />
+                <span>{SABA_EMAIL}</span>
+              </a>
+
+              <a
+                href={`https://wa.me/${SABA_WHATSAPP}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600 hover:text-white transition-all font-semibold"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600 hover:text-white transition-all font-semibold"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>WhatsApp Helpline: +92 300 0000000</span>
+                <span>WhatsApp Helpline</span>
               </a>
             </div>
           </div>
@@ -142,10 +151,10 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-zinc-500 text-[11px]">
-            © {new Date().getFullYear()} Saba Art (صبا آرٹ). All Rights Reserved. Curated with passion.
+            © {new Date().getFullYear()} Saba Art. All Rights Reserved. Curated with passion.
           </p>
           <div className="flex items-center gap-2 text-zinc-500 text-[11px]">
-            <span>Handmade in Pakistan</span>
+            <span>Original Art Studio</span>
             <span>•</span>
             <span className="text-rose-400 flex items-center gap-1">
               Made with <Heart className="w-3 h-3 fill-current" /> by Saba Art

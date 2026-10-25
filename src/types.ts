@@ -1,19 +1,19 @@
 export interface Artwork {
   id: string;
   title: string;
-  urduTitle: string;
+  arabicScript?: string;
   category: 'Islamic Calligraphy' | 'Landscape' | 'Seascape' | 'Spiritual & Sufi' | 'Modern Art';
   medium: string;
   dimensions: string;
   pricePKR: number;
   priceUSD: number;
   image: string;
+  thumbnail: string;
   aspectRatio: string;
   featured?: boolean;
   bestSeller?: boolean;
   inStock: boolean;
   description: string;
-  urduDescription: string;
   details: string[];
 }
 

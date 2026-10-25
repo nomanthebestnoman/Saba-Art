@@ -18,13 +18,14 @@ export const AboutArtist: React.FC = () => {
               <div className="p-3 rounded-3xl bg-gradient-to-tr from-[#aa771c] via-[#d4af37] to-[#faee78] shadow-2xl gold-glow">
                 <div className="relative rounded-2xl overflow-hidden bg-[#11131a] p-4 flex flex-col items-center">
                   <img
-                    src="/images/products/sufi-whirling-dervish.jpg"
+                    src="/images/products/sufi-whirling-dervish.webp"
                     alt="Saba Art Painting Detail"
                     className="w-full max-h-[380px] object-contain rounded-xl shadow-lg"
+                    loading="lazy"
                   />
                   <div className="w-full mt-4 p-3 rounded-xl bg-[#1a1c26] border border-zinc-800 text-center">
-                    <p className="font-arabic text-[#faee78] text-lg font-bold">
-                      "ہر نقش میں محبت، ہر لفظ میں عقیدت"
+                    <p className="font-serif text-[#faee78] text-base font-bold">
+                      "Devotion in Every Stroke, Peace on Every Canvas"
                     </p>
                     <p className="font-serif text-xs text-zinc-400 mt-0.5 tracking-wider uppercase">
                       Handcrafted with Soul • Saba Art
@@ -40,7 +41,7 @@ export const AboutArtist: React.FC = () => {
                 </div>
                 <div>
                   <p className="font-serif text-white font-bold text-xs">Authentic Original</p>
-                  <p className="font-arabic text-[#d4af37] text-xs font-semibold">دستخط شدہ اصلی شاہکار</p>
+                  <p className="text-[11px] text-[#d4af37] font-semibold">Artist Hand-Signed</p>
                 </div>
               </div>
             </div>
@@ -58,10 +59,6 @@ export const AboutArtist: React.FC = () => {
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
               The Passion of <span className="gold-gradient-text">Saba Art</span>
             </h2>
-
-            <p className="font-arabic text-[#d4af37] text-xl font-bold mb-4">
-              صبا آرٹ کا مقصد گھروں اور دلوں کو اللہ کے بابرکت کلام اور قدرتی حسن سے منور کرنا ہے۔
-            </p>
 
             <p className="text-zinc-300 text-sm sm:text-base leading-relaxed mb-4">
               Founded on a lifelong devotion to Islamic calligraphy and fine painting, Saba Art transforms raw stretched canvas into breathing spiritual sanctuaries. Unlike mass-produced digital prints, every painting is hand-drawn, sculpted with heavy-body acrylics, and finished with authentic brushstrokes you can feel with your fingertips.

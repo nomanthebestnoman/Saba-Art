@@ -39,11 +39,11 @@ export const Hero: React.FC<HeroProps> = ({
           
           {/* Left Column: Headline and Story */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
-            {/* Urdu Tagline Badge */}
+            {/* Tagline Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1e2029] border border-[#d4af37]/40 mb-6 shadow-md">
               <Sparkles className="w-4 h-4 text-[#faee78] animate-spin" style={{ animationDuration: '6s' }} />
-              <span className="font-arabic text-[#faee78] text-sm tracking-wide font-medium">
-                دستکاری اور خطاطی کا منفرد انداز — صبا آرٹ
+              <span className="text-[#faee78] text-xs uppercase tracking-widest font-semibold">
+                Authentic Handcrafted Masterpieces • Saba Art
               </span>
             </div>
 
@@ -52,13 +52,13 @@ export const Hero: React.FC<HeroProps> = ({
               Timeless <span className="gold-gradient-text">Islamic Calligraphy</span> & Fine Canvas Art
             </h1>
 
-            {/* Description */}
+            {/* Description in Clean English */}
             <p className="text-zinc-300 text-base sm:text-lg max-w-xl leading-relaxed mb-4">
               Hand-painted bespoke masterpieces crafted with textured acrylics, vibrant pigment layers, and sacred Arabic calligraphy. Every piece is an authentic original designed to elevate your sanctuary.
             </p>
 
-            <p className="font-arabic text-zinc-400 text-base sm:text-lg mb-8 leading-relaxed max-w-lg">
-              گھر اور دفتر کی خوبصورتی کے لیے خصوصی طور پر تیار کردہ اصلی کینوس پینٹنگز۔ ہر برش اسٹروک میں نفاست اور روحانی سکون۔
+            <p className="text-zinc-400 text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
+              Explore 14 original gallery-wrapped canvases crafted with museum-grade cotton canvas and protective archival UV varnish. Designed to bring harmony, spiritual elegance, and warmth to every modern home.
             </p>
 
             {/* CTA Buttons */}
@@ -104,7 +104,7 @@ export const Hero: React.FC<HeroProps> = ({
                 {/* Outer frame & glow */}
                 <div className="relative p-3 rounded-2xl bg-gradient-to-b from-[#2a2d3d] to-[#12131a] border border-[#d4af37]/50 shadow-2xl gold-glow group transition-all duration-500">
                   
-                  {/* Cropped Painting with no background */}
+                  {/* Cropped Painting with no background & fast WebP loading */}
                   <div
                     onClick={() => onSelectArtwork(activeArt)}
                     className="relative overflow-hidden rounded-xl cursor-pointer bg-[#0e1017] flex items-center justify-center shadow-inner"
@@ -115,6 +115,7 @@ export const Hero: React.FC<HeroProps> = ({
                       alt={activeArt.title}
                       className="w-full h-full max-h-[460px] object-contain transition-transform duration-700 group-hover:scale-105"
                       loading="eager"
+                      decoding="async"
                     />
 
                     {/* Hover Overlay */}
@@ -122,7 +123,7 @@ export const Hero: React.FC<HeroProps> = ({
                       <div className="flex items-center justify-between w-full">
                         <div>
                           <p className="font-serif text-white font-semibold text-sm">{activeArt.title}</p>
-                          <p className="font-arabic text-[#faee78] text-xs font-medium">{activeArt.urduTitle}</p>
+                          <p className="text-[#faee78] text-xs font-medium">{activeArt.dimensions}</p>
                         </div>
                         <span className="flex items-center gap-1 text-xs text-[#faee78] bg-[#0b0c10]/90 px-3 py-1.5 rounded-full border border-[#d4af37]/40">
                           <Eye className="w-3.5 h-3.5" />

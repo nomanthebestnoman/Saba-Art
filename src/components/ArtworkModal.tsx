@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, Heart, ShoppingBag, MessageCircle, Maximize2, ShieldCheck, Sparkles, Check, ZoomIn } from 'lucide-react';
+import { X, Heart, ShoppingBag, MessageCircle, Maximize2, ShieldCheck, Sparkles, ZoomIn } from 'lucide-react';
 import { Artwork } from '../types';
+import { SABA_WHATSAPP, SABA_EMAIL } from '../utils/orderDispatch';
 
 interface ArtworkModalProps {
   artwork: Artwork | null;
@@ -35,8 +36,8 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
   const framePriceAdjustment = selectedFrame === 'Frameless Stretched Canvas' ? 0 : 3500;
   const currentPrice = artwork.pricePKR + framePriceAdjustment;
 
-  const whatsappUrl = `https://wa.me/923000000000?text=${encodeURIComponent(
-    `Hello Saba Art, I would like to order: "${artwork.title}" (${artwork.urduTitle})\nFrame Choice: ${selectedFrame}\nTotal: PKR ${currentPrice.toLocaleString()}\nPlease provide details for delivery.`
+  const whatsappUrl = `https://wa.me/${SABA_WHATSAPP}?text=${encodeURIComponent(
+    `Hello Saba Art, I would like to order: "${artwork.title}"\nFraming: ${selectedFrame}\nTotal: PKR ${currentPrice.toLocaleString()}\nNotification Sent to Email: ${SABA_EMAIL}\nPlease confirm availability and delivery.`
   )}`;
 
   return (
@@ -97,11 +98,12 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
                 className={`max-h-[460px] max-w-full object-contain rounded transition-transform duration-500 ${
                   isZoomed ? 'scale-150 cursor-zoom-out' : 'scale-100'
                 }`}
+                loading="eager"
               />
             </div>
 
-            <p className="text-[11px] text-zinc-500 mt-4 flex items-center gap-1">
-              <span>Original Cropped Canvas — Pure Artwork with 0% Background</span>
+            <p className="text-[11px] text-zinc-500 mt-4">
+              Original Cropped Canvas — Pure Artwork with 0% Background
             </p>
           </div>
 
@@ -120,13 +122,10 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
                 )}
               </div>
 
-              {/* Title in English and Urdu */}
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-1">
+              {/* Title in English */}
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-3">
                 {artwork.title}
               </h2>
-              <p className="font-arabic text-[#faee78] text-xl font-bold mb-4 text-right">
-                {artwork.urduTitle}
-              </p>
 
               {/* Price */}
               <div className="flex items-baseline gap-3 mb-6 p-3 rounded-xl bg-[#171923] border border-zinc-800">
@@ -141,12 +140,9 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
                 </span>
               </div>
 
-              {/* Description */}
-              <p className="text-zinc-300 text-sm leading-relaxed mb-3">
+              {/* Description in Clean English */}
+              <p className="text-zinc-300 text-sm leading-relaxed mb-6">
                 {artwork.description}
-              </p>
-              <p className="font-arabic text-zinc-400 text-sm leading-relaxed mb-6 text-right">
-                {artwork.urduDescription}
               </p>
 
               {/* Frame Selection */}
@@ -156,9 +152,9 @@ export const ArtworkModal: React.FC<ArtworkModalProps> = ({
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {[
-                    { id: 'Frameless Stretched Canvas', label: 'Gallery Wrap (Free)', price: 0 },
-                    { id: 'Gold Floating Frame', label: 'Gold Floating (+3.5k)', price: 3500 },
-                    { id: 'Onyx Black Floating Frame', label: 'Onyx Frame (+3.5k)', price: 3500 },
+                    { id: 'Frameless Stretched Canvas', label: 'Gallery Wrap (Free)' },
+                    { id: 'Gold Floating Frame', label: 'Gold Floating (+3.5k)' },
+                    { id: 'Onyx Black Floating Frame', label: 'Onyx Frame (+3.5k)' },
                   ].map((f) => (
                     <button
                       key={f.id}

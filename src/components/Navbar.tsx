@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Heart, Search, MessageCircle, Menu, X, Sparkles } from 'lucide-react';
+import { ShoppingBag, Heart, Search, MessageCircle, Menu, X, Sparkles, Mail } from 'lucide-react';
 import { CartItem, Artwork } from '../types';
+import { SABA_EMAIL, SABA_WHATSAPP } from '../utils/orderDispatch';
 
 interface NavbarProps {
   cart: CartItem[];
@@ -40,7 +41,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#0b0c10]/90 backdrop-blur-md border-b border-[#252836] py-3 shadow-xl'
+            ? 'bg-[#0b0c10]/95 backdrop-blur-md border-b border-[#252836] py-3 shadow-xl'
             : 'bg-gradient-to-b from-[#0b0c10]/90 to-transparent py-5'
         }`}
       >
@@ -57,8 +58,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-[#f3f4f6] group-hover:text-[#faee78] transition-colors">
                   SABA ART
                 </span>
-                <span className="font-arabic text-xs text-[#d4af37] tracking-wider -mt-1 font-semibold">
-                  صبا آرٹ — ہاتھ سے تیار کردہ شاہکار
+                <span className="text-[10px] text-[#d4af37] tracking-wider uppercase font-semibold">
+                  Original Handmade Masterpieces
                 </span>
               </div>
             </a>
@@ -91,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="hover:text-[#faee78] transition-colors flex items-center gap-1.5"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
-                Custom Order
+                Custom Commission
               </a>
               <a href="#about" className="hover:text-[#faee78] transition-colors">
                 The Artist
@@ -103,6 +104,16 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Right Actions */}
             <div className="flex items-center gap-3">
+              {/* Email direct link */}
+              <a
+                href={`mailto:${SABA_EMAIL}`}
+                className="hidden xl:flex items-center gap-1.5 text-xs text-zinc-400 hover:text-[#faee78] transition-colors px-2.5 py-1 rounded-full border border-zinc-800"
+                title="Send inquiry email"
+              >
+                <Mail className="w-3.5 h-3.5 text-[#d4af37]" />
+                <span>{SABA_EMAIL}</span>
+              </a>
+
               {/* Search Toggle */}
               <div className="relative">
                 {showSearchInput ? (
@@ -167,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* WhatsApp direct CTA */}
               <a
-                href="https://wa.me/923000000000?text=Hello%20Saba%20Art,%20I%20am%20interested%20in%20your%20handmade%20paintings%20collection."
+                href={`https://wa.me/${SABA_WHATSAPP}?text=Hello%20Saba%20Art,%20I%20am%20interested%20in%20your%20handmade%20paintings%20collection.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold tracking-wide transition-all duration-300 hover:scale-105"
@@ -208,9 +219,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onSelectCategory('Islamic Calligraphy');
                 setIsMobileMenuOpen(false);
               }}
-              className="hover:text-[#faee78] py-2 border-b border-zinc-800/80 font-arabic text-xl"
+              className="hover:text-[#faee78] py-2 border-b border-zinc-800/80"
             >
-              Islamic Calligraphy (اسلامی خطاطی)
+              Islamic Calligraphy
             </a>
             <a
               href="#collection"
@@ -247,10 +258,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           <a
-            href="https://wa.me/923000000000?text=Hello%20Saba%20Art,%20I%20am%20interested%20in%20your%20handmade%20paintings%20collection."
+            href={`mailto:${SABA_EMAIL}`}
+            className="flex items-center justify-center gap-2 py-3 rounded-xl bg-zinc-800 text-zinc-200 text-xs font-semibold"
+          >
+            <Mail className="w-4 h-4 text-[#d4af37]" />
+            <span>Email: {SABA_EMAIL}</span>
+          </a>
+
+          <a
+            href={`https://wa.me/${SABA_WHATSAPP}?text=Hello%20Saba%20Art,%20I%20am%20interested%20in%20your%20handmade%20paintings%20collection.`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-600 text-white font-semibold text-center mt-4 shadow-lg shadow-emerald-900/30"
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-600 text-white font-semibold text-center shadow-lg shadow-emerald-900/30"
           >
             <MessageCircle className="w-5 h-5" />
             Chat with Saba Art on WhatsApp

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Quote, MapPin } from 'lucide-react';
+import { Star, MapPin } from 'lucide-react';
 import { TESTIMONIALS } from '../data/artworks';
 
 export const Testimonials: React.FC = () => {
@@ -15,8 +15,8 @@ export const Testimonials: React.FC = () => {
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-2">
             Loved by Art Connoisseurs
           </h2>
-          <p className="font-arabic text-[#faee78] text-lg font-bold">
-            ہمارے معزز کسٹمرز کے تاثرات اور تجربات
+          <p className="text-zinc-400 text-sm">
+            Hear directly from collectors across Pakistan and internationally about their custom pieces.
           </p>
         </div>
 

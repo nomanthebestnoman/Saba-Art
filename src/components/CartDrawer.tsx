@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, Trash2, ShoppingBag, Plus, Minus, MessageCircle, ShieldCheck, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { X, Trash2, ShoppingBag, Plus, Minus, MessageCircle, ShieldCheck, ArrowRight, CheckCircle2, Mail } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { CartItem } from '../types';
+import { dispatchOrder, SABA_EMAIL } from '../utils/orderDispatch';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -22,10 +23,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 }) => {
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
   const [customerCity, setCustomerCity] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [orderCompleted, setOrderCompleted] = useState(false);
+  const [isDispatching, setIsDispatching] = useState(false);
 
   if (!isOpen) return null;
 
@@ -34,40 +37,37 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     return sum + (item.artwork.pricePKR + framePrice) * item.quantity;
   }, 0);
 
-  const handleWhatsAppCheckout = () => {
+  const handleCompleteOrder = async () => {
     if (cart.length === 0) return;
+    setIsDispatching(true);
 
-    let itemsList = '';
-    cart.forEach((item, index) => {
+    const items = cart.map((item) => {
       const framePrice = item.frameOption === 'Frameless Stretched Canvas' ? 0 : 3500;
-      const unitPrice = item.artwork.pricePKR + framePrice;
-      itemsList += `${index + 1}. *${item.artwork.title}* (${item.artwork.urduTitle})\n   • Framing: ${item.frameOption}\n   • Qty: ${item.quantity}\n   • Unit Price: PKR ${unitPrice.toLocaleString()}\n   • Item Total: PKR ${(unitPrice * item.quantity).toLocaleString()}\n\n`;
+      return {
+        title: item.artwork.title,
+        frame: item.frameOption,
+        quantity: item.quantity,
+        price: item.artwork.pricePKR + framePrice
+      };
     });
 
-    const message = `*✨ New Order Request - Saba Art ✨*\n\n` +
-      `👤 *Customer Name:* ${customerName || 'Customer'}\n` +
-      `📞 *Phone / WhatsApp:* ${customerPhone || 'As per chat'}\n` +
-      `📍 *City:* ${customerCity || 'Pakistan'}\n` +
-      `🏠 *Delivery Address:* ${customerAddress || 'Please share address'}\n\n` +
-      `━━━━━━━━━━━━━━━━━━\n` +
-      `*ORDERED ARTWORKS:*\n` +
-      `━━━━━━━━━━━━━━━━━━\n` +
-      itemsList +
-      `━━━━━━━━━━━━━━━━━━\n` +
-      `💰 *Grand Total:* PKR ${subtotal.toLocaleString()}\n` +
-      `🚚 *Shipping:* FREE Express Delivery across Pakistan\n` +
-      `💳 *Payment Method:* Cash on Delivery / Bank Transfer\n\n` +
-      `Please confirm the order and dispatch timeline. Thank you!`;
-
-    const url = `https://wa.me/923000000000?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    await dispatchOrder({
+      customerName: customerName || 'Valued Customer',
+      customerPhone: customerPhone || 'Not specified',
+      customerEmail: customerEmail || '',
+      customerCity: customerCity || 'Pakistan',
+      customerAddress: customerAddress || 'To be confirmed on WhatsApp',
+      items,
+      totalPKR: subtotal
+    });
 
     confetti({
-      particleCount: 120,
-      spread: 70,
+      particleCount: 140,
+      spread: 75,
       origin: { y: 0.6 }
     });
 
+    setIsDispatching(false);
     setOrderCompleted(true);
   };
 
@@ -99,12 +99,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-2 animate-bounce">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
-              <h4 className="font-serif text-2xl font-bold text-white">Order Initiated!</h4>
-              <p className="font-arabic text-lg text-[#faee78] font-bold">
-                آپ کا آرڈر واٹس ایپ پر موصول ہو چکا ہے!
+              <h4 className="font-serif text-2xl font-bold text-white">Order Dispatched!</h4>
+              <p className="text-sm text-[#faee78] font-semibold">
+                Order details sent to {SABA_EMAIL} & WhatsApp
               </p>
               <p className="text-xs text-zinc-400 leading-relaxed max-w-xs mx-auto">
-                Saba Art will review your pieces, provide confirmation, and send package tracking once dispatched.
+                Thank you! Saba Art has received your order request in both our email inbox and WhatsApp. We will confirm package tracking shortly.
               </p>
               <button
                 onClick={() => {
@@ -112,7 +112,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   setOrderCompleted(false);
                   onClose();
                 }}
-                className="mt-6 px-6 py-2.5 rounded-xl bg-[#d4af37] text-black font-bold text-xs uppercase tracking-wider"
+                className="mt-6 px-6 py-2.5 rounded-xl bg-[#d4af37] text-black font-bold text-xs uppercase tracking-wider hover:bg-[#faee78]"
               >
                 Continue Exploring
               </button>
@@ -142,9 +142,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     {/* Thumbnail */}
                     <div className="w-16 h-16 rounded-xl bg-[#0b0c10] p-1 flex-shrink-0 flex items-center justify-center overflow-hidden border border-zinc-800">
                       <img
-                        src={item.artwork.image}
+                        src={item.artwork.thumbnail || item.artwork.image}
                         alt={item.artwork.title}
                         className="max-h-full max-w-full object-contain"
+                        loading="lazy"
                       />
                     </div>
 
@@ -153,8 +154,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       <h5 className="font-serif text-white font-bold text-xs truncate">
                         {item.artwork.title}
                       </h5>
-                      <p className="font-arabic text-[#d4af37] text-[11px] font-semibold truncate">
-                        {item.artwork.urduTitle}
+                      <p className="text-[10px] text-[#d4af37] font-medium truncate">
+                        {item.artwork.category}
                       </p>
                       <p className="text-[10px] text-zinc-400 mt-0.5 truncate">
                         Frame: {item.frameOption}
@@ -235,6 +236,19 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
               <div>
                 <label className="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
+                  Your Email Address (Optional):
+                </label>
+                <input
+                  type="email"
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                  placeholder="yourname@gmail.com"
+                  className="w-full bg-[#171924] border border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#d4af37]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
                   City:
                 </label>
                 <input
@@ -260,9 +274,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </div>
 
               <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800 text-[11px] text-zinc-400 flex items-start gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                <Mail className="w-4 h-4 text-[#d4af37] mt-0.5 flex-shrink-0" />
                 <span>
-                  Payment via <strong>Cash on Delivery (COD)</strong> or <strong>Direct Bank Transfer / JazzCash / Nayapay</strong> upon order confirmation on WhatsApp.
+                  Order invoice will be sent directly to <strong>{SABA_EMAIL}</strong> and opened in WhatsApp for instant tracking.
                 </span>
               </div>
             </div>
@@ -294,11 +308,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </button>
             ) : (
               <button
-                onClick={handleWhatsAppCheckout}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs tracking-wide flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/40 transition-all hover:scale-[1.01]"
+                onClick={handleCompleteOrder}
+                disabled={isDispatching}
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs tracking-wide flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/40 transition-all hover:scale-[1.01] disabled:opacity-50"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>Complete Order on WhatsApp</span>
+                <span>{isDispatching ? 'Sending...' : `Send Order to ${SABA_EMAIL} & WhatsApp`}</span>
               </button>
             )}
           </div>

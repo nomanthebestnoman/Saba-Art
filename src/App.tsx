@@ -12,6 +12,7 @@ import { Footer } from './components/Footer';
 import { ARTWORKS } from './data/artworks';
 import { Artwork, CartItem } from './types';
 import { Sparkles, Filter, SlidersHorizontal, MessageCircle, Heart, X, ShoppingBag } from 'lucide-react';
+import { SABA_WHATSAPP } from './utils/orderDispatch';
 
 export const App: React.FC = () => {
   // Cart state persisted to localStorage
@@ -78,7 +79,6 @@ export const App: React.FC = () => {
       const matchesSearch =
         !q ||
         art.title.toLowerCase().includes(q) ||
-        art.urduTitle.includes(q) ||
         art.description.toLowerCase().includes(q) ||
         art.category.toLowerCase().includes(q) ||
         art.medium.toLowerCase().includes(q);
@@ -195,8 +195,8 @@ export const App: React.FC = () => {
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
                 Original <span className="gold-gradient-text">Handmade Paintings</span>
               </h2>
-              <p className="font-arabic text-[#faee78] text-lg font-bold mt-1">
-                صبا آرٹ کے اصلی اور منفرد کینوس شہپارے
+              <p className="text-zinc-400 text-sm mt-1">
+                Authentic textured canvas paintings crafted with archival acrylics and pure dedication.
               </p>
             </div>
 
@@ -368,11 +368,11 @@ export const App: React.FC = () => {
                     className="p-3 rounded-2xl bg-[#171924] border border-zinc-800/80 flex items-center gap-3.5"
                   >
                     <div className="w-16 h-16 rounded-xl bg-[#0b0c10] p-1 flex-shrink-0 flex items-center justify-center border border-zinc-800">
-                      <img src={item.image} alt={item.title} className="max-h-full max-w-full object-contain" />
+                      <img src={item.thumbnail || item.image} alt={item.title} className="max-h-full max-w-full object-contain" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h5 className="font-serif text-white font-bold text-xs truncate">{item.title}</h5>
-                      <p className="font-arabic text-[#faee78] text-xs font-semibold">{item.urduTitle}</p>
+                      <p className="text-xs text-[#faee78] font-medium">{item.category}</p>
                       <p className="text-xs font-bold text-white mt-1">PKR {item.pricePKR.toLocaleString()}</p>
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -405,7 +405,7 @@ export const App: React.FC = () => {
 
       {/* Floating Instant WhatsApp Button */}
       <a
-        href="https://wa.me/923000000000?text=Hello%20Saba%20Art,%20I%20am%20browsing%20your%20website%20and%20have%20an%20inquiry%20about%20your%20paintings."
+        href={`https://wa.me/${SABA_WHATSAPP}?text=Hello%20Saba%20Art,%20I%20am%20browsing%20your%20website%20and%20have%20an%20inquiry%20about%20your%20paintings.`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs tracking-wide shadow-2xl shadow-emerald-950/60 transition-all duration-300 hover:scale-105 border border-emerald-400/30 group"

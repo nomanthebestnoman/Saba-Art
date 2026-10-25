@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Sun, Check, MessageCircle, ShoppingBag } from 'lucide-react';
+import { X, ShoppingBag, MessageCircle } from 'lucide-react';
 import { Artwork } from '../types';
+import { SABA_WHATSAPP } from '../utils/orderDispatch';
 
 interface RoomPreviewModalProps {
   artwork: Artwork | null;
@@ -32,8 +33,8 @@ export const RoomPreviewModal: React.FC<RoomPreviewModalProps> = ({
     { id: 'terracotta', name: 'Warm Terracotta', bg: '#3d251e', textColor: '#e4e4e7' }
   ];
 
-  const whatsappUrl = `https://wa.me/923000000000?text=${encodeURIComponent(
-    `Hello Saba Art, I visualized "${artwork.title}" in the Room Preview. I would like to order it. Can you confirm availability and framing options?`
+  const whatsappUrl = `https://wa.me/${SABA_WHATSAPP}?text=${encodeURIComponent(
+    `Hello Saba Art, I visualized "${artwork.title}" in the Virtual Room Preview. I would like to order it. Can you confirm availability and framing options?`
   )}`;
 
   return (
@@ -87,6 +88,7 @@ export const RoomPreviewModal: React.FC<RoomPreviewModalProps> = ({
               src={artwork.image}
               alt={artwork.title}
               className="w-full max-h-[220px] sm:max-h-[270px] object-contain"
+              loading="eager"
             />
           </div>
 
@@ -94,7 +96,6 @@ export const RoomPreviewModal: React.FC<RoomPreviewModalProps> = ({
           <div className="absolute bottom-0 w-full flex flex-col items-center pointer-events-none">
             {/* Table Top */}
             <div className="w-4/5 max-w-xl h-4 bg-gradient-to-b from-[#2e1d15] to-[#1a110c] rounded-t-sm shadow-xl flex items-center justify-between px-6">
-              {/* Decorative vase and plant on console */}
               <div className="w-6 h-8 bg-amber-100/40 rounded-t-full -mt-8 shadow-sm backdrop-blur-sm" />
               <div className="w-4 h-6 bg-zinc-300/30 rounded-t-md -mt-6 backdrop-blur-sm" />
             </div>
